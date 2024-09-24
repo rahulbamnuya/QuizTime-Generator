@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Quiz Timetable</title>
+      <style>
+            body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f7f7f7;
+                  margin: 0;
+                  padding: 20px;
+            }
+
+            h1 {
+                  text-align: center;
+                  color: #333;
+                  margin-bottom: 30px;
+            }
+
+            table {
+                  width: 100%;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  border-collapse: collapse;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  background-color: #fff;
+            }
+
+            th,
+            td {
+                  padding: 15px;
+                  text-align: center;
+                  border-bottom: 1px solid #ddd;
+            }
+
+            td {
+                  font-size: 14px;
+                  color: #555;
+            }
+
+            td .info-container {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+            }
+
+            td .teacher-subject {
+                 
+                  
+                  padding: 10px;
+                  border-radius: 5px;
+                  border: 1px solid rgb(220, 217, 217);
+                  width: 100%;
+                  text-align: center;
+            }
+
+            td .teacher {
+                  font-size: 16px;
+                  font-weight: bold;
+                  margin-bottom: 5px;
+            }
+
+            td .subject {
+                  font-size: 16px;
+            }
+
+      
+            .download-btn {
+                  display: inline-block;
+                  padding: 10px 20px;
+                  margin-bottom: 20px;
+                  font-size: 16px;
+                  color: #fff;
+                  background-color: #4CAF50;
+                  text-decoration: none;
+                  border-radius: 5px;
+                  text-align: center;
+            }
+
+            .download-btn:hover {
+                  background-color: #45a049;
+            }
+
+            td.time-slot {
+                  background-color: #f9f9f9;
+                  font-weight: bold;
+            }
+      </style>
+</head>
+
+<body>
+      <h1>Quiz Timetable</h1>
+     
+
+      <table>
+            <thead>
+                  <tr style="background-color: #333;color: white;">
+                        <th>Day</th>
+                        <th>Date</th>
+                        <% time_range.forEach(time=> { %>
+                              <th class="time-slot">
+                                    <%= time %>
+                              </th>
+                              <% }); %>
+                  </tr>
+            </thead>
+            <tbody>
+                  <% for (const day in timetable) { %>
+                        <% const [dayName, date]=day.split(' - '); %>
+                        <tr>
+                              <td><strong><%= dayName %></strong></td>
+                              <td><%= date %></td>
+                              <% for (let i = 0; i < timetable[day].length; i++) { %> 
+                                    <% const assignment = timetable[day][i]; %>
+                                    <td>
+                                          <div class="info-container">
+                                                <div class="teacher-subject">
+                                                      <div class="teacher"> <%= assignment.teacher %></div> 
+                                                      <div class="subject"> <%= assignment.subject %></div>
+                                                </div>
+                                          </div>
+                                    </td>
+                              <% } %>
+                        </tr>
+                  <% } %>
+            </tbody>
+      </table>
+   
+      <a href="/" class="download-btn">Home</a>
+</body>
+</html>

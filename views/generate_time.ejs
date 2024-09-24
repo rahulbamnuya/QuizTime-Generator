@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Quiz Schedule Setup</title>
+      <style>
+            * {
+                  box-sizing: border-box;
+            }
+
+            body {
+                  font-family: Arial, sans-serif;
+                  background-color: #f5f5f5;
+                  margin: 0;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  height: 100vh;
+                  position: relative;
+                  /* Set position to relative for absolute positioning of loader */
+            }
+
+            .loader {
+                  position: absolute;
+                  /* Absolute positioning */
+                  top: 50%;
+                  /* Center vertically */
+                  left: 50%;
+                  /* Center horizontally */
+                  transform: translate(-50%, -50%);
+                  /* Adjust to center loader */
+                  scale: 3;
+                  height: 50px;
+                  width: 40px;
+                  z-index: 5;
+                  /* Set a lower z-index to keep it behind the form */
+                  display: none;
+                  /* Hide loader by default */
+            }
+
+            .form-container {
+                  width: 70%;
+                  background-color: #fff;
+                  padding: 20px;
+                  border-radius: 10px;
+                  z-index: 15;
+                  /* Higher z-index to display on top of the loader */
+                  position: relative;
+                  /* Maintain stacking context */
+                  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  margin-bottom: 20px;
+            }
+
+            .form-group {
+                  margin-bottom: 15px;
+            }
+
+            label {
+                  display: block;
+                  margin-bottom: 8px;
+                  font-weight: bold;
+            }
+
+            /* Spinner styles omitted for brevity, include your spinner styles here */
+
+            input[type="number"],
+            input[type="date"],
+            input[type="time"] {
+                  width: 100%;
+                  padding: 10px;
+                  border: 1px solid #ccc;
+                  border-radius: 5px;
+                  font-size: 16px;
+            }
+
+            .grid-container {
+                  display: grid;
+                  grid-template-columns: repeat(2, 1fr);
+                  gap: 20px;
+            }
+
+            .submit-button {
+                  width: 100%;
+                  padding: 10px;
+                  background-color: #007bff;
+                  color: white;
+                  border: none;
+                  border-radius: 5px;
+                  font-size: 18px;
+                  cursor: pointer;
+                  margin-top: 15px;
+            }
+
+            .submit-button:hover {
+                  background-color: #0056b3;
+            }
+      </style>
+</head>
+
+<body>
+      <div class="loader">
+            <div class="box box-1">
+                  <div class="side-left"></div>
+                  <div class="side-right"></div>
+                  <div class="side-top"></div>
+            </div>
+            <div class="box box-2">
+                  <div class="side-left"></div>
+                  <div class="side-right"></div>
+                  <div class="side-top"></div>
+            </div>
+            <div class="box box-3">
+                  <div class="side-left"></div>
+                  <div class="side-right"></div>
+                  <div class="side-top"></div>
+            </div>
+            <div class="box box-4">
+                  <div class="side-left"></div>
+                  <div class="side-right"></div>
+                  <div class="side-top"></div>
+            </div>
+      </div>
+
+      <div class="form-container">
+            <h2>Quiz Schedule Setup</h2>
+            <form action="/submit-quiz-form" method="POST" onsubmit="showLoader()">
+                  <!-- Number of Quizzes per Day -->
+                  <div class="form-group">
+                        <label for="quizPerDay">Number of Quizzes per Day</label>
+                        <input type="number" id="quizPerDay" name="quizPerDay" min="1" max="5"
+                              placeholder="Enter number of quizzes" required>
+                  </div>
+
+                  <!-- Quiz Start Date -->
+                  <div class="form-group">
+                        <label for="startDate">Quiz Start Date</label>
+                        <input type="date" id="startDate" name="startDate" required>
+                  </div>
+
+                  <!-- Time Selection: Start Time and End Time -->
+                  <div class="grid-container">
+                        <div class="form-group">
+                              <label for="startTime">Quiz Starting Time</label>
+                              <input type="time" id="startTime" name="startTime" required>
+                        </div>
+                        <div class="form-group">
+                              <label for="endTime">Quiz End Time</label>
+                              <input type="time" id="endTime" name="endTime" required>
+                        </div>
+                  </div>
+
+                  <!-- Submit Button -->
+                  <button type="submit" class="submit-button">Submit</button>
+            </form>
+      </div>
+
+      <script>
+            document.getElementById('quizForm').addEventListener('submit', function () {
+                  // Hide the form container
+                  document.getElementById('formContainer').style.display = 'none';
+                  // Show the loader
+                  document.getElementById('loader').style.display = 'block';
+            });
+      </script>
+</body>
+
+</html>

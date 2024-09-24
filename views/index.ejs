@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Timetable Generator</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <div class="min-h-screen flex items-center justify-center bg-gradient">
+        <div class="overlay-black"></div>
+        <div class="background-image"></div>
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">Quiz Timetable Generator</h1>
+                <p class="card-description">Create your perfect quiz schedule with just one click!</p>
+            </div>
+            <div class="card-content">
+                <p class="info-text">
+                    Our intelligent system will create a balanced timetable for your quizzes, ensuring optimal study
+                    time and
+                    performance. Get ready to ace your exams!
+                </p>
+                <button id="generateButton" class="generate-button">Generate Timetable</button>
+            </div>
+        </div>
+    </div>
+<script>
+    const generateButton = document.getElementById('generateButton');
+    let isGenerating = false;
+
+    generateButton.addEventListener('click', () => {
+        if (isGenerating) return;
+
+        isGenerating = true;
+        generateButton.innerText = 'Generating...';
+        generateButton.classList.add('animate-pulse');
+
+        setTimeout(() => {
+            isGenerating = false;
+            generateButton.innerText = 'Generate Timetable';
+            generateButton.classList.remove('animate-pulse');
+
+            // Redirect to /teacher route after generating timetable
+            window.location.href = '/teacher';
+        }, 2000);
+    });
+</script>
+</body>
+
+</html>
