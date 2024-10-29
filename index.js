@@ -3,7 +3,7 @@ const multer = require('multer');
 const pdf = require('html-pdf');
 const bodyParser = require('body-parser');
 const moment = require('moment');
-const teachersAvailability = require('./teachersAvailability');
+
 const fs = require('fs');
 const path = require('path');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
