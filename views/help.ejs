@@ -16,12 +16,15 @@
             h1 {
                   text-align: center;
                   color: #333;
-                  margin-bottom: 30px;
+                  margin-bottom: 20px;
+                  font-size: 18px;
+                  /* Reduce font size */
             }
 
             table {
                   width: 100%;
-                  max-width: 1200px;
+                  max-width: 1000px;
+                  /* Further reduced max width */
                   margin: 0 auto;
                   border-collapse: collapse;
                   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -30,13 +33,20 @@
 
             th,
             td {
-                  padding: 15px;
+                  padding: 8px;
+                  /* Reduced padding */
                   text-align: center;
                   border-bottom: 1px solid #ddd;
             }
 
+            th {
+                  font-size: 12px;
+                  /* Reduced font size */
+            }
+
             td {
-                  font-size: 14px;
+                  font-size: 10px;
+                  /* Further reduced font size */
                   color: #555;
             }
 
@@ -48,9 +58,7 @@
             }
 
             td .teacher-subject {
-                 
-                  
-                  padding: 10px;
+                  padding: 8px;
                   border-radius: 5px;
                   border: 1px solid rgb(220, 217, 217);
                   width: 100%;
@@ -58,46 +66,102 @@
             }
 
             td .teacher {
-                  font-size: 16px;
+                  font-size: 12px;
                   font-weight: bold;
                   margin-bottom: 5px;
             }
 
             td .subject {
-                  font-size: 16px;
-            }
-
-      
-            .download-btn {
-                  display: inline-block;
-                  padding: 10px 20px;
-                  margin-bottom: 20px;
-                  font-size: 16px;
-                  color: #fff;
-                  background-color: #4CAF50;
-                  text-decoration: none;
-                  border-radius: 5px;
-                  text-align: center;
-            }
-
-            .download-btn:hover {
-                  background-color: #45a049;
+                  font-size: 12px;
             }
 
             td.time-slot {
                   background-color: #f9f9f9;
                   font-weight: bold;
             }
+
+            .header {
+                  text-align: center;
+                  padding: 15px;
+                  margin-top: 10px;
+            }
+
+            .header h1 {
+                  font-size: 18px;
+                  margin-bottom: 5px;
+            }
+
+            .header p {
+                  font-size: 14px;
+                  margin: 5px 0;
+            }
+
+            .header h2 {
+                  font-size: 16px;
+                  margin: 10px 0;
+            }
+
+            /* Center the buttons and move them to the bottom */
+            .buttons-container {
+                  text-align: center;
+                  margin-top: 20px;
+                  padding-top: 20px;
+            }
+
+            .download-btn,
+            .home-btn {
+                  display: inline-block;
+                  padding: 10px 20px;
+                  margin-bottom: 20px;
+                  font-size: 14px;
+                  /* Reduced font size */
+                  color: #fff;
+                  background-color: #4CAF50;
+                  text-decoration: none;
+                  border-radius: 5px;
+                  text-align: center;
+                  margin: 10px;
+            }
+
+            .download-btn:hover,
+            .home-btn:hover {
+                  background-color: #45a049;
+            }
+
+            /* Prevent the buttons from being included in the PDF */
+            .no-print {
+                  display: none;
+            }
+
+            @media print {
+                  .no-print {
+                        display: block;
+                  }
+
+                  .buttons-container {
+                        display: none;
+                        /* Hide buttons in PDF */
+                  }
+            }
       </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
+      <div class="header">
+            <h1>Shri G. S. Institute of Technology and Science, Indore - Home</h1>
+            <h2>Department of <%= department %>
+            </h2>
+            <p>Session: <%= session %>
+            </p>
+            <p>B.Tech. III Year</p>
+      </div>
+
       <h1>Quiz Timetable</h1>
-     
 
       <table>
             <thead>
-                  <tr style="background-color: #333;color: white;">
+                  <tr style="background-color: #333; color: white;">
                         <th>Day</th>
                         <th>Date</th>
                         <% time_range.forEach(time=> { %>
@@ -113,13 +177,14 @@
                         <tr>
                               <td><strong><%= dayName %></strong></td>
                               <td><%= date %></td>
-                              <% for (let i = 0; i < timetable[day].length; i++) { %> 
+                              <% for (let i = 0; i < timetable[day].length; i++) { %>
                                     <% const assignment = timetable[day][i]; %>
                                     <td>
                                           <div class="info-container">
                                                 <div class="teacher-subject">
-                                                      <div class="teacher"> <%= assignment.teacher %></div> 
-                                                      <div class="subject"> <%= assignment.subject %></div>
+                                                      <div class="teacher"><%= assignment.teacher %></div>
+                                                      <div class="subject"><%= assignment.subject %></div>
+                                                      <div>LT-101</div>
                                                 </div>
                                           </div>
                                     </td>
@@ -128,7 +193,29 @@
                   <% } %>
             </tbody>
       </table>
-   
-      <a href="/" class="download-btn">Home</a>
+
+      <!-- Centered Buttons for Home and Download -->
+      <div class="buttons-container">
+            <a href="/" class="home-btn">Home</a>
+            <a href="#" class="download-btn" onclick="downloadPDF()">Download Timetable</a>
+      </div>
+
+      <script>
+            function downloadPDF() {
+                  var element = document.body.cloneNode(true);
+
+                  // Exclude buttons from the downloaded PDF
+                  var buttons = element.querySelector(' .buttons-container'); buttons.remove();
+                  html2pdf().from(element).set({
+                        margin: [0.5, 0.5, 0.5, 0.5], // Reduce margins
+                        filename: 'Quiz_Timetable.pdf', html2canvas: {
+                              scale: 2, logging: true, dpi: 192,
+                              letterRendering: true
+                        }, jsPDF: {
+                              unit: 'in', format: 'letter', orientation: 'portrait'
+                        }
+                  }).save();
+            } </script>
 </body>
+
 </html>
