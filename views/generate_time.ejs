@@ -19,25 +19,17 @@
                   align-items: center;
                   height: 100vh;
                   position: relative;
-                  /* Set position to relative for absolute positioning of loader */
             }
 
             .loader {
                   position: absolute;
-                  /* Absolute positioning */
                   top: 50%;
-                  /* Center vertically */
                   left: 50%;
-                  /* Center horizontally */
                   transform: translate(-50%, -50%);
-                  /* Adjust to center loader */
-                  scale: 3;
                   height: 50px;
                   width: 40px;
-                  z-index: 5;
-                  /* Set a lower z-index to keep it behind the form */
                   display: none;
-                  /* Hide loader by default */
+                  z-index: 5;
             }
 
             .form-container {
@@ -46,9 +38,7 @@
                   padding: 20px;
                   border-radius: 10px;
                   z-index: 15;
-                  /* Higher z-index to display on top of the loader */
                   position: relative;
-                  /* Maintain stacking context */
                   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
 
@@ -68,22 +58,14 @@
                   font-weight: bold;
             }
 
-            /* Spinner styles omitted for brevity, include your spinner styles here */
-
-            input[type="number"],
             input[type="date"],
-            input[type="time"] {
+            input[type="time"],
+            select {
                   width: 100%;
                   padding: 10px;
                   border: 1px solid #ccc;
                   border-radius: 5px;
                   font-size: 16px;
-            }
-
-            .grid-container {
-                  display: grid;
-                  grid-template-columns: repeat(2, 1fr);
-                  gap: 20px;
             }
 
             .submit-button {
@@ -131,29 +113,61 @@
       <div class="form-container">
             <h2>Quiz Schedule Setup</h2>
             <form action="/submit-quiz-form" method="POST" onsubmit="showLoader()">
-                  <!-- Number of Quizzes per Day -->
-                  <div class="form-group">
-                        <label for="quizPerDay">Number of Quizzes per Day</label>
-                        <input type="number" id="quizPerDay" name="quizPerDay" min="1" max="5"
-                              placeholder="Enter number of quizzes" required>
-                  </div>
-
                   <!-- Quiz Start Date -->
                   <div class="form-group">
                         <label for="startDate">Quiz Start Date</label>
                         <input type="date" id="startDate" name="startDate" required>
                   </div>
 
-                  <!-- Time Selection: Start Time and End Time -->
-                  <div class="grid-container">
-                        <div class="form-group">
-                              <label for="startTime">Quiz Starting Time</label>
-                              <input type="time" id="startTime" name="startTime" required>
-                        </div>
-                        <div class="form-group">
-                              <label for="endTime">Quiz End Time</label>
-                              <input type="time" id="endTime" name="endTime" required>
-                        </div>
+                  <!-- Quiz Starting Time -->
+                  <div class="form-group">
+                        <label for="startTime">Quiz Starting Time</label>
+                        <input type="time" id="startTime" name="startTime" required>
+                  </div>
+
+                  <!-- Select Department -->
+                  <div class="form-group">
+                        <label for="department">Select Department</label>
+                        <select id="department" name="department" required>
+                              <option value="">--Select Department--</option>
+                              <option value="Computer Science">Computer Science</option>
+                              <option value="Electrical Engineering">Electrical Engineering</option>
+                              <option value="Mechanical Engineering">Mechanical Engineering</option>
+                              <option value="Civil Engineering">Civil Engineering</option>
+                        </select>
+                  </div>
+
+                  <!-- Select Degree -->
+                  <div class="form-group">
+                        <label for="degree">Select Degree</label>
+                        <select id="degree" name="degree" required>
+                              <option value="">--Select Degree--</option>
+                              <option value="Bachelors">Bachelors</option>
+                              <option value="Masters">Masters</option>
+                              <option value="PhD">PhD</option>
+                        </select>
+                  </div>
+
+                  <!-- Select Year -->
+                  <div class="form-group">
+                        <label for="year">Select Year</label>
+                        <select id="year" name="year" required>
+                              <option value="">--Select Year--</option>
+                              <option value="1">1st Year</option>
+                              <option value="2">2nd Year</option>
+                              <option value="3">3rd Year</option>
+                              <option value="4">4th Year</option>
+                        </select>
+                  </div>
+
+                  <!-- Select Session -->
+                  <div class="form-group">
+                        <label for="session">Select Session</label>
+                        <select id="session" name="session" required>
+                              <option value="">--Select Session--</option>
+                              <option value="July-December">July to December</option>
+                              <option value="February-June">February to June</option>
+                        </select>
                   </div>
 
                   <!-- Submit Button -->
@@ -162,12 +176,12 @@
       </div>
 
       <script>
-            document.getElementById('quizForm').addEventListener('submit', function () {
+            function showLoader() {
                   // Hide the form container
-                  document.getElementById('formContainer').style.display = 'none';
+                  document.querySelector('.form-container').style.display = 'none';
                   // Show the loader
-                  document.getElementById('loader').style.display = 'block';
-            });
+                  document.querySelector('.loader').style.display = 'block';
+            }
       </script>
 </body>
 
