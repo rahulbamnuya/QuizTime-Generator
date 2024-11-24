@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files from the "public" directory
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Set up multer for file uploads
 const upload = multer({ dest: 'uploads/' });
@@ -64,12 +64,34 @@ app.post('/teacher', upload.single('image'), async (req, res) => {
   try {
     teacher = await run(imagePath); // Run image processing
     console.log(teacher);
-    res.redirect("/subject"); // Redireco teacher availability page
+    res.render("preview_teacher",{teacher})
+    // res.redirect("/subject"); // Redireco teacher availability page
   } catch (error) {
     console.error('Error processing image:', error);
     res.status(500).send('Failed to process image.');
   }
 });
+// Function to process the image and generate names from the model
+async function run(imagePath) {
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  const result = await model.generateContent([
+    "give me names of all in array in json",
+    {
+      inlineData: {
+        data: Buffer.from(fs.readFileSync(imagePath)).toString("base64"),
+        mimeType: 'image/jpeg',
+      },
+    },
+  ]);
+
+  const responseText = await result.response.text();
+  const jsonArrayText = extractJsonArray(responseText);
+  const namesArray = JSON.parse(jsonArrayText);
+
+  fs.unlinkSync(imagePath); // Clean up the uploaded image after use
+  return namesArray;
+}
 
 // Route for handling subject image upload and processing
 app.post('/subject', upload.single('image'), async (req, res) => {
@@ -77,13 +99,16 @@ app.post('/subject', upload.single('image'), async (req, res) => {
   try {
     subject = await run(imagePath); // Run image processing
     console.log(subject);
-    res.render("generate_time"); // Render timetable generation page
+    res.render("preview_subject",{subject})
+    // res.render("generate_time"); // Render timetable generation page
   } catch (error) {
     console.error('Error processing image:', error);
     res.status(500).send('Failed to process image.');
   }
 });
-
+app.get("/generate_time",(req,res)=>{
+  res.render("generate_time")
+})
 app.post('/submit-quiz-form', (req, res) => {
   const quizPerDay = 5;
   const startDate = req.body.startDate;
@@ -109,19 +134,6 @@ app.post('/submit-quiz-form', (req, res) => {
 });
 
 
-// Sample route for generating and rendering a timetable
-// app.get('/help', (req, res) => {
-//   const startDate = '2024-09-02'; // Example start date
-//   const teachers = ['Mr. Smith', 'Ms. Johnson', 'Mrs. Brown', 'Mr. Lee', 'Ms. Davis'];
-//   const subjects = ['Math', 'Science', 'English', 'History', 'Geography'];
-//   const subjectCapacity = 2;
-//   const time_range = ["09:00", "12:00", "15:00", "17:00"];
-
-//   const timetable = generateTimetable(startDate, teachers, subjects, subjectCapacity);
-//   res.render('help', { timetable, time_range });
-// });
-
-// Function to generate the quiz timetable
 function generateTimetable(startDate, teachers, subjects, subjectCapacity) {
   let timetable = {};
   let currentDate = moment(startDate);
@@ -201,27 +213,6 @@ function divideTimeRange(startTime, endTime) {
 
 // Handle availability form submission
 
-// Function to process the image and generate names from the model
-async function run(imagePath) {
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
-  const result = await model.generateContent([
-    "give me names of all in array in json",
-    {
-      inlineData: {
-        data: Buffer.from(fs.readFileSync(imagePath)).toString("base64"),
-        mimeType: 'image/jpeg',
-      },
-    },
-  ]);
-
-  const responseText = await result.response.text();
-  const jsonArrayText = extractJsonArray(responseText);
-  const namesArray = JSON.parse(jsonArrayText);
-
-  fs.unlinkSync(imagePath); // Clean up the uploaded image after use
-  return namesArray;
-}
 
 // Start the server
 app.listen(3000, () => {
