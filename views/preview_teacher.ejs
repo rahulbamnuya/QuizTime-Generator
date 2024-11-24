@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Teacher Preview</title>
+      <style>
+            body {
+                  font-family: Arial, sans-serif;
+                  margin: 0;
+                  padding: 0;
+                  background-color: #f9f9f9;
+                  color: #333;
+            }
+
+            h1 {
+                  text-align: center;
+                  margin-top: 20px;
+                  font-size: 24px;
+                  color: #444;
+            }
+
+            table {
+                  width: 80%;
+                  margin: 20px auto;
+                  border-collapse: collapse;
+                  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                  background-color: #fff;
+                  border-radius: 8px;
+                  overflow: hidden;
+            }
+
+            th,
+            td {
+                  border: 1px solid #ddd;
+                  padding: 10px 15px;
+                  text-align: left;
+            }
+
+            th {
+                  background-color: #4CAF50;
+                  color: white;
+                  text-transform: uppercase;
+                  font-size: 14px;
+            }
+
+            tr:nth-child(even) {
+                  background-color: #f2f2f2;
+            }
+
+            tr:hover {
+                  background-color: #e9f7df;
+            }
+
+            td {
+                  font-size: 14px;
+            }
+
+            .btn-container {
+                  text-align: center;
+                  margin: 20px 0;
+            }
+
+            .btn-continue {
+                  background-color: #4CAF50;
+                  color: white;
+                  padding: 10px 20px;
+                  border: none;
+                  border-radius: 5px;
+                  cursor: pointer;
+                  font-size: 16px;
+                  text-decoration: none;
+                  display: inline-block;
+                  transition: background-color 0.3s ease;
+            }
+
+            .btn-continue:hover {
+                  background-color: #45a049;
+            }
+      </style>
+</head>
+
+<body>
+      <h1 style="text-align: center; margin-top: 10px; font-size: 30px; color: #444;">Teacher Data</h1>
+      <table>
+            <thead>
+                  <tr>
+                        <th>Serial No.</th>
+                        <th>Name</th>
+                  </tr>
+            </thead>
+            <tbody>
+                  <% teacher.forEach((t, index)=> { %>
+                        <tr>
+                              <td>
+                                    <%= index + 1 %>
+                              </td> <!-- Serial Number -->
+                              <td>
+                                    <%= t %>
+                              </td> <!-- Teacher Name -->
+                        </tr>
+                        <% }) %>
+            </tbody>
+      </table>
+      <div class="btn-container">
+            <a href="/subject" class="btn-continue">Continue</a>
+      </div>
+</body>
+
+</html>
