@@ -17,7 +17,7 @@ let con = 0;
 let subject = 0;
 let teacher = 0;
 
-const GOOGLE_API_KEY = "AIzaSyDT44DwhkyBDfA8pjggMguusRaMEyp0VhM"// Use environment variable if deploying
+const GOOGLE_API_KEY = "AIzaSyAG41KsWjo5Tjmrik4AMWcWLTPdu3uJRk4"// Use environment variable if deploying
 const genAI = new GoogleGenerativeAI(GOOGLE_API_KEY); // Initialize Generative AI with the API key
 
 // Configure EJS as the view engine and set views directory
